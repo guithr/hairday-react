@@ -5,9 +5,9 @@ export const textVariants = tv({
   base: "font-sans",
   variants: {
     variant: {
-      "title-lg": "text-4xl leading-6 font-bold",
-      "title-md": "text-lg leading-6 font-bold",
-      "title-sm": "text-base leading-5 font-bold",
+      "title-lg": "text-2xl/8 leading-8 font-bold",
+      "title-md": "text-base leading-6 font-bold",
+      "title-sm": "text-sm leading-5 font-bold",
       "text-md": "text-base leading-6 font-normal",
       "text-sm": "text-sm leading-5 font-normal",
     },
