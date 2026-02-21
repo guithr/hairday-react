@@ -1,144 +1,70 @@
-import { DatePicker } from "../components/date-picker";
-import { Icon } from "../components/icon";
-import { Text } from "../components/text";
-import SunHorizon from "../assets/icons/SunHorizon.svg?react";
-import CloudSun from "../assets/icons/CloudSun.svg?react";
-import MoonStars from "../assets/icons/MoonStars.svg?react";
-import Trash from "../assets/icons/Trash.svg?react";
-import { ButtonIcon } from "../components/button-icon";
+import { ScheduleHeader } from "./schedule-header";
+import { ScheduleItem } from "./schedule-item";
+import { SchedulePeriod } from "./schedule-period";
+
+const morningAppointments = [
+  { time: "09:00", client: "Guilherme", id: "1" },
+  { time: "10:00", client: "Rudy", id: "2" },
+];
+
+const afternoonAppointments = [
+  { time: "13:00", client: "Matheus", id: "3" },
+  { time: "18:00", client: "Leonardo", id: "4" },
+];
+
+const nightAppointments = [
+  { time: "19:00", client: "Antonio", id: "5" },
+  { time: "20:00", client: "Kalebe", id: "6" },
+  { time: "21:00", client: "Fernando", id: "7" },
+];
 
 export function Schedule() {
+
+  function handleDelete(id: string) {
+    console.log("Delete appointment with id:", id);
+  }
   return (
-    <div className="w-full py-20">
+    <section className="w-full py-20">
       <div className="mx-auto flex flex-col gap-8 max-w-170.5">
-        <header className="flex justify-between gap-6">
-          <div className="flex flex-col gap-1">
-            <Text as="h1" variant="title-lg" className="text-gray-100">
-              Sua agenda
-            </Text>
-            <Text variant="text-sm" className="text-gray-300">
-              Consulte os seus cortes de cabelo agendados por dia
-            </Text>
-          </div>
-          <DatePicker />
-        </header>
+        <ScheduleHeader />
 
-        <div className="flex flex-col gap-3">
-          <div className="border border-gray-600 rounded-lg ">
-            <div className="flex justify-between py-3 px-5 border-b border-b-gray-600">
-              <div className="flex gap-3 items-center ">
-                <Icon svg={SunHorizon} className="fill-yellow size-5" />
-                <Text variant="text-sm" className="text-gray-300">
-                  Manhã
-                </Text>
-              </div>
-              <Text variant="text-sm" className="text-gray-400">
-                09h-12h
-              </Text>
-            </div>
-            <div className="flex flex-col gap-2 p-5">
-              <div className="flex">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5 items-center">
-                    <Text variant="title-md" className="text-gray-200">
-                      14:00
-                    </Text>
-                    <Text className="text-gray-200">Maria Herwitz</Text>
-                  </div>
-                  <ButtonIcon icon={Trash} ariaLabel={"Lixeira"} />
-                </div>
-              </div>
-              <div className="flex">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5 justify-center items-center">
-                    <Text variant="title-md" className="text-gray-200">
-                      18:00
-                    </Text>
-                    <Text className="text-gray-200">Maria Herwitz</Text>
-                  </div>
-                  <ButtonIcon icon={Trash} ariaLabel={"Lixeira"} />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="space-y-3">
+          <SchedulePeriod period="morning">
+            {morningAppointments.map((appointment) => (
+              <ScheduleItem
+                key={appointment.id}
+                id={appointment.id}
+                time={appointment.time}
+                client={appointment.client}
+                onDelete={handleDelete}
+              />
 
-          <div className="border border-gray-600 rounded-lg ">
-            <div className="flex justify-between py-3 px-5 border-b border-b-gray-600">
-              <div className="flex gap-3 items-center ">
-                <Icon svg={CloudSun} className="fill-yellow size-5" />
-                <Text variant="text-sm" className="text-gray-300">
-                  Tarde
-                </Text>
-              </div>
-              <Text variant="text-sm" className="text-gray-400">
-                13h-18h
-              </Text>
-            </div>
-            <div className="flex flex-col gap-2 p-5">
-              <div className="flex">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5 items-center">
-                    <Text variant="title-md" className="text-gray-200">
-                      14:00
-                    </Text>
-                    <Text className="text-gray-200">Maria Herwitz</Text>
-                  </div>
-                  <ButtonIcon icon={Trash} ariaLabel={"Lixeira"} />
-                </div>
-              </div>
-              <div className="flex">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5 justify-center items-center">
-                    <Text variant="title-md" className="text-gray-200">
-                      18:00
-                    </Text>
-                    <Text className="text-gray-200">Maria Herwitz</Text>
-                  </div>
-                  <ButtonIcon icon={Trash} ariaLabel={"Lixeira"} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border border-gray-600 rounded-lg ">
-            <div className="flex justify-between py-3 px-5 border-b border-b-gray-600">
-              <div className="flex gap-3 items-center ">
-                <Icon svg={SunHorizon} className="fill-yellow size-5" />
-                <Text variant="text-sm" className="text-gray-300">
-                  Noite
-                </Text>
-              </div>
-              <Text variant="text-sm" className="text-gray-400">
-                19h-21h
-              </Text>
-            </div>
-            <div className="flex flex-col gap-2 p-5">
-              <div className="flex">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5 items-center">
-                    <Text variant="title-md" className="text-gray-200">
-                      14:00
-                    </Text>
-                    <Text className="text-gray-200">Maria Herwitz</Text>
-                  </div>
-                  <ButtonIcon icon={Trash} ariaLabel={"Lixeira"} />
-                </div>
-              </div>
-              <div className="flex">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5 justify-center items-center">
-                    <Text variant="title-md" className="text-gray-200">
-                      18:00
-                    </Text>
-                    <Text className="text-gray-200">Maria Herwitz</Text>
-                  </div>
-                  <ButtonIcon icon={Trash} ariaLabel={"Lixeira"} />
-                </div>
-              </div>
-            </div>
-          </div>
+            ))}
+          </SchedulePeriod>
+          <SchedulePeriod period="afternoon">
+            {afternoonAppointments.map((appointment) => (
+              <ScheduleItem
+                key={appointment.id}
+                id={appointment.id}
+                time={appointment.time}
+                client={appointment.client}
+                onDelete={handleDelete}
+              />
+            ))}
+          </SchedulePeriod>
+          <SchedulePeriod period="night">
+            {nightAppointments.map((appointment) => (
+              <ScheduleItem
+                key={appointment.id}
+                id={appointment.id}
+                time={appointment.time}
+                client={appointment.client}
+                onDelete={handleDelete}
+              />
+            ))}
+          </SchedulePeriod>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

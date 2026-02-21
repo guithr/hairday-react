@@ -14,12 +14,12 @@ export const buttonIconVariants = tv({
 
 interface ButtonIconProps
   extends
-    React.ComponentProps<"button">,
-    VariantProps<typeof buttonIconContainerVariants> {
+  React.ComponentProps<"button">,
+  VariantProps<typeof buttonIconContainerVariants> {
   icon: React.ComponentProps<typeof Icon>["svg"];
   buttonClassName?: string;
   iconClassName?: string;
-  ariaLabel: string;
+  ariaLabel?: string;
 }
 
 export function ButtonIcon({
