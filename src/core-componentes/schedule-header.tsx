@@ -1,7 +1,14 @@
+import type { ComponentProps } from "react";
 import { DatePicker } from "../components/date-picker";
 import { Text } from "../components/text";
 
-export function ScheduleHeader() {
+type ScheduleHeaderProps = {
+    filteredDate: Date;
+    onChangeFilteredDate: ComponentProps<"input">["onChange"];
+};
+
+
+export function ScheduleHeader({ filteredDate, onChangeFilteredDate }: ScheduleHeaderProps) {
     return (
         <header className="flex justify-between gap-6">
             <div className="flex flex-col gap-1">
@@ -12,7 +19,10 @@ export function ScheduleHeader() {
                     Consulte os seus cortes de cabelo agendados por dia
                 </Text>
             </div>
-            <DatePicker />
+            <DatePicker
+                value={filteredDate.toISOString().split("T")[0]}
+                onChange={onChangeFilteredDate}
+            />
         </header>
     )
 }

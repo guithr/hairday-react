@@ -1,25 +1,31 @@
 import { ButtonIcon } from "../components/button-icon";
 import Trash from "../assets/icons/Trash.svg?react";
 import { Text } from "../components/text";
+import { useAppointment } from "../hooks/use-appointment";
+import type { AppointmentFormatted } from "../hooks/use-appointments";
 
 interface ScheduleItemProps {
-    id: string
-    time: string,
-    client: string,
-    onDelete: (id: string) => void
+    appointment: AppointmentFormatted
 }
 
-export function ScheduleItem({ id, client, time, onDelete }: ScheduleItemProps) {
+export function ScheduleItem({ appointment }: ScheduleItemProps) {
+
+    const { deleteAppointment } = useAppointment()
+
+    function handleDelete(id: string) {
+        deleteAppointment(id)
+    }
+
     return (
         <li className="flex items-center gap-5">
             <Text variant="title-md" className="text-gray-200">
-                {time}
+                {appointment?.time}
             </Text>
-            <Text className="text-gray-200 w-full">{client}</Text>
+            <Text className="text-gray-200 w-full">{appointment?.client}</Text>
             <ButtonIcon
                 icon={Trash}
                 ariaLabel="Excluir agendamento"
-                onClick={() => onDelete(id)}
+                onClick={() => handleDelete(appointment.id)}
             />
         </li>
     )
