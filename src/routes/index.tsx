@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SideBar } from "../core-componentes/sidebar";
 import { Schedule } from "../core-componentes/schedule";
-import { MainContent } from "../core-componentes/main-conten";
+import { MainContent } from "../core-componentes/main-content";
 import { Logo } from "../components/logo";
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [selectedDate, setSelectedDate] = useState<Date>(
-    dayjs().startOf("day").toDate()
+    dayjs().startOf("day").toDate(),
   );
 
   return (

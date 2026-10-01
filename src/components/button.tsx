@@ -4,8 +4,7 @@ import { Text } from "./text";
 export const buttonVariants = tv({
   base: `
    flex items-center justify-center
-   w-full rounded-lg cursor-pointer
-   transition-colors
+   rounded-lg cursor-pointer transition
    `,
   variants: {
     variant: {
@@ -32,19 +31,27 @@ export const buttonVariants = tv({
 
 interface ButtonProps
   extends
-    React.ComponentProps<"button">,
-    Omit<VariantProps<typeof buttonVariants>, "disabled"> {}
+    Omit<React.ComponentProps<"button">, "disabled" | "size">,
+    VariantProps<typeof buttonVariants> {}
 
 export function Button({
   children,
   variant,
-  className,
+  size,
   disabled,
+  handling,
+  className,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={buttonVariants({ variant, className, disabled })}
+      className={buttonVariants({
+        variant,
+        size,
+        disabled,
+        handling,
+        className,
+      })}
       {...props}
     >
       <Text variant="title-sm" className="uppercase text-gray-900 ">

@@ -4,42 +4,34 @@ import { Icon } from "./icon";
 export const buttonIconContainerVariants = tv({
   base: `
     inline-flex items-center justify-center
-    cursor-pointer bg-transparent group size-4
+    cursor-pointer bg-transparent group
+    w-fit
     `,
 });
 
 export const buttonIconVariants = tv({
-  base: `size-full fill-yellow group-hover:fill-yellow-dark transition-colors`,
+  base: `size-full fill-yellow group-hover:fill-yellow-dark transition`,
+  variants: {
+    size: {
+      sm: "h-4 w-4",
+    },
+  },
+  defaultVariants: {
+    size: "sm",
+  },
 });
 
 interface ButtonIconProps
   extends
-  React.ComponentProps<"button">,
-  VariantProps<typeof buttonIconContainerVariants> {
+    React.ComponentProps<"button">,
+    VariantProps<typeof buttonIconContainerVariants> {
   icon: React.ComponentProps<typeof Icon>["svg"];
-  buttonClassName?: string;
-  iconClassName?: string;
-  ariaLabel?: string;
 }
 
-export function ButtonIcon({
-  icon,
-  iconClassName,
-  buttonClassName,
-  ariaLabel,
-  ...props
-}: ButtonIconProps) {
+export function ButtonIcon({ icon, className, ...props }: ButtonIconProps) {
   return (
-    <button
-      className={buttonIconContainerVariants({ className: buttonClassName })}
-      {...props}
-      type="button"
-      aria-label={ariaLabel}
-    >
-      <Icon
-        svg={icon}
-        className={buttonIconVariants({ className: iconClassName })}
-      ></Icon>
+    <button className={buttonIconContainerVariants({ className })} {...props}>
+      <Icon svg={icon} className={buttonIconVariants({ className })} />
     </button>
   );
 }

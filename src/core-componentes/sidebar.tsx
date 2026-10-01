@@ -11,7 +11,10 @@ import dayjs from "dayjs";
 
 const periods = [
   { label: "Manhã", slots: ["09:00", "10:00", "11:00", "12:00"] },
-  { label: "Tarde", slots: ["13:00", "14:00", "15:00", "16:00", "17:00", "18:00"] },
+  {
+    label: "Tarde",
+    slots: ["13:00", "14:00", "15:00", "16:00", "17:00", "18:00"],
+  },
   { label: "Noite", slots: ["19:00", "20:00", "21:00"] },
 ];
 
@@ -44,6 +47,22 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
     onChangeDate(dayjs(event.target.value).startOf("day").toDate());
   }
 
+  function isTimeDisabled(slot: string) {
+    if (usedTimeSlots.includes(slot)) {
+      return true;
+    }
+
+    const now = dayjs();
+
+    if (!dayjs(selectedDate).isSame(now, "day")) {
+      return false;
+    }
+
+    const slotTime = dayjs(`${now.format("YYYY-MM-DD")} ${slot}`);
+
+    return slotTime.isBefore(now);
+  }
+
   return (
     <aside className="max-w-124.5 w-full flex flex-col p-20 bg-gray-700 gap-6 rounded-xl">
       <div className="space-y-1">
@@ -51,7 +70,8 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
           Agende um atendimento
         </Text>
         <Text variant="text-sm" className="text-gray-300">
-          Selecione data, horário e informe o nome do cliente para criar o agendamento
+          Selecione data, horário e informe o nome do cliente para criar o
+          agendamento
         </Text>
       </div>
 
@@ -84,7 +104,7 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
                       value={slot}
                       onChange={(e) => setTime(e.target.value)}
                       selected={time === slot}
-                      disabled={usedTimeSlots.includes(slot)}
+                      disabled={isTimeDisabled(slot)}
                     >
                       {slot}
                     </TimeSelect>
@@ -108,7 +128,7 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
           />
         </label>
 
-        <Button type="submit" disabled={!time || !client}>
+        <Button className="w-full" type="submit" disabled={!time || !client}>
           Agendar
         </Button>
       </form>

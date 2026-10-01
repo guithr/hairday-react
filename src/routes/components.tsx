@@ -18,7 +18,7 @@ function RouteComponent() {
       <Text as="h4">Welcome Componentes Page!</Text>
       <Button>Agendar</Button>
       <TextInput icon={UserSquare} placeholder="Nome do cliente" />
-      <ButtonIcon ariaLabel="Lixeira" type="button" icon={TrashIcon} />
+      <ButtonIcon aria-label="Lixeira" type="button" icon={TrashIcon} />
       <div className="flex gap-3">
         <TimeSelect>09:00</TimeSelect>
         <TimeSelect>11:00</TimeSelect>

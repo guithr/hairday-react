@@ -25,9 +25,6 @@ export function Icon({
   ...props
 }: IconProps) {
   return (
-    <SvgComponent
-      className={iconVariants({ animate, className })}
-      {...props}
-    ></SvgComponent>
+    <SvgComponent className={iconVariants({ animate, className })} {...props} />
   );
 }
