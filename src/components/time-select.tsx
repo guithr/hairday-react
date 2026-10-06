@@ -5,7 +5,7 @@ import { Skeleton } from "./skeleton";
 import { textVariants } from "./text";
 
 export const timeSelectVariants = tv({
-  base: "h-10 py-2 px-4.5 text-gray-200 transition-colors cursor-pointer",
+  base: "w-17.5 h-10 py-2 px-4.5 text-gray-200 transition-colors shrink-0 cursor-pointer",
 
   variants: {
     variant: {
@@ -30,14 +30,7 @@ export const timeSelectVariants = tv({
 });
 
 export const timeSelectSkeletonVariants = tv({
-  variants: {
-    size: {
-      md: "w-17.5 h-10",
-    },
-  },
-  defaultVariants: {
-    size: "md",
-  },
+  base: "w-17.5 h-10",
 });
 
 interface TimeSelectProps
@@ -55,17 +48,12 @@ export function TimeSelect({
   selected,
   loading,
   className,
+  onChange,
   ...props
 }: TimeSelectProps) {
   if (loading) {
     return (
-      <Skeleton
-        className={twMerge(
-          timeSelectVariants({ variant: "none" }),
-          timeSelectSkeletonVariants({ size: "md" }),
-          className,
-        )}
-      />
+      <Skeleton className={twMerge(timeSelectSkeletonVariants(), className)} />
     );
   }
 
@@ -82,7 +70,14 @@ export function TimeSelect({
       )}
     >
       {children}
-      <input type="radio" className="hidden" disabled={disabled} {...props} />
+      <input
+        {...props}
+        type="radio"
+        className="hidden"
+        disabled={disabled}
+        checked={!!selected}
+        onChange={onChange ?? (() => {})}
+      />
     </label>
   );
 }
