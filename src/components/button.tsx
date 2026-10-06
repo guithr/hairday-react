@@ -1,5 +1,7 @@
 import { tv, type VariantProps } from "tailwind-variants";
+
 import { Text } from "./text";
+import { Skeleton } from "./skeleton";
 
 export const buttonVariants = tv({
   base: `
@@ -8,19 +10,29 @@ export const buttonVariants = tv({
    `,
   variants: {
     variant: {
+      none: "",
       primary:
         "bg-yellow border-2 border-transparent hover:border-yellow-light",
+      danger: "bg-red-500 border-2 border-transparent hover:border-red-600",
+      succes: "bg-green-500 border-2 border-transparent hover:border-green-600",
     },
+
     size: {
+      sm: "h-10 py-2 px-3",
       md: "h-14 py-4.5 px-4",
     },
+
     handling: {
       true: "pointer-events-none",
+      false: "",
     },
+
     disabled: {
       true: "opacity-30 pointer-events-none",
+      false: "",
     },
   },
+
   defaultVariants: {
     variant: "primary",
     size: "md",
@@ -45,6 +57,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
+      disabled={disabled}
       className={buttonVariants({
         variant,
         size,
@@ -54,7 +67,7 @@ export function Button({
       })}
       {...props}
     >
-      <Text variant="title-sm" className="uppercase text-gray-900 ">
+      <Text variant="title-sm" className="uppercase text-gray-900">
         {children}
       </Text>
     </button>

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.23",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-router": "^1.153.1",
     "dayjs": "^1.11.19",
