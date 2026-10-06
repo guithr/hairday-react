@@ -3,13 +3,14 @@ import { twMerge } from "tailwind-merge";
 
 import { Skeleton } from "./skeleton";
 import { Icon } from "./icon";
+import { Spinner } from "./spinner";
 
 export const buttonIconVariants = tv({
-  base: "inline-flex items-center justify-center group w-fit cursor-pointer",
+  base: "inline-flex items-center justify-center group cursor-pointer shrink-0",
 
   variants: {
     size: {
-      sm: "h-4 w-4",
+      sm: "h-6 w-6",
     },
 
     disabled: {
@@ -30,6 +31,7 @@ interface ButtonIconProps
     VariantProps<typeof buttonIconVariants> {
   icon: React.ComponentProps<typeof Icon>["svg"];
   loading?: boolean;
+  busy?: boolean;
 }
 
 export function ButtonIcon({
@@ -37,6 +39,7 @@ export function ButtonIcon({
   className,
   disabled,
   loading,
+  busy,
   size,
   ...props
 }: ButtonIconProps) {
@@ -56,18 +59,26 @@ export function ButtonIcon({
 
   return (
     <button
-      className={buttonIconVariants({
-        size,
-        disabled,
-        className,
-      })}
-      disabled={disabled}
+      className={twMerge(
+        buttonIconVariants({
+          size,
+          disabled,
+          className,
+        }),
+        busy && "pointer-events-none",
+      )}
+      disabled={disabled || busy}
+      aria-busy={busy}
       {...props}
     >
-      <Icon
-        svg={icon}
-        className="size-4 fill-yellow group-hover:fill-yellow-dark"
-      />
+      {busy ? (
+        <Spinner size={16} />
+      ) : (
+        <Icon
+          svg={icon}
+          className="size-4 fill-yellow group-hover:fill-yellow-dark"
+        />
+      )}
     </button>
   );
 }

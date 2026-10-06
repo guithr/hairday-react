@@ -27,17 +27,17 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
   const [client, setClient] = useState<string>("");
   const [time, setTime] = useState<string>("");
 
-  const { createAppointment } = useAppointment();
+  const { createAppointment, isSaving } = useAppointment();
 
-  const { usedTimeSlots } = useAppointments({
+  const { isLoadingAppointments, usedTimeSlots } = useAppointments({
     filters: { date: selectedDate },
   });
 
-  function handleNewAppointment(event: React.FormEvent<HTMLFormElement>) {
+  async function handleNewAppointment(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const date = dayjs(selectedDate).format("YYYY-MM-DD");
     const datetime = dayjs(`${date} ${time}`).toISOString();
-    createAppointment({ client, datetime });
+    await createAppointment({ client, datetime });
     setClient("");
     setTime("");
   }
@@ -83,6 +83,8 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
           <DatePicker
             value={dayjs(selectedDate).format("YYYY-MM-DD")}
             onChange={handleDateChange}
+            loading={isLoadingAppointments}
+            className="w-full"
           />
         </label>
 
@@ -97,18 +99,22 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
                   {period.label}
                 </Text>
                 <div className="flex flex-wrap items-center gap-2">
-                  {period.slots.map((slot) => (
-                    <TimeSelect
-                      key={slot}
-                      name="time"
-                      value={slot}
-                      onChange={(e) => setTime(e.target.value)}
-                      selected={time === slot}
-                      disabled={isTimeDisabled(slot)}
-                    >
-                      {slot}
-                    </TimeSelect>
-                  ))}
+                  {isLoadingAppointments
+                    ? period.slots.map((_, index) => (
+                        <TimeSelect key={index} loading />
+                      ))
+                    : period.slots.map((slot) => (
+                        <TimeSelect
+                          key={slot}
+                          name="time"
+                          value={slot}
+                          onChange={(e) => setTime(e.target.value)}
+                          selected={time === slot}
+                          disabled={isTimeDisabled(slot)}
+                        >
+                          {slot}
+                        </TimeSelect>
+                      ))}
                 </div>
               </div>
             ))}
@@ -125,11 +131,17 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
             placeholder="Helena Souza"
             onChange={(e) => setClient(e.target.value)}
             value={client}
+            loading={isLoadingAppointments}
           />
         </label>
 
-        <Button className="w-full" type="submit" disabled={!time || !client}>
-          Agendar
+        <Button
+          className="w-full"
+          type="submit"
+          disabled={!time || !client || isLoadingAppointments}
+          loading={isSaving}
+        >
+          {isSaving ? "Agendando..." : "Agendar"}
         </Button>
       </form>
     </aside>

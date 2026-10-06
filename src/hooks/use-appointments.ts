@@ -1,7 +1,8 @@
 import useLocalStorage from "use-local-storage";
 import { APPOINTMENTS_KEY, type Appointment } from "../models/appointments";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import dayjs from "dayjs";
+import { delay } from "../helpers/utils";
 
 type Props = {
   filters: {
@@ -29,7 +30,25 @@ function sortByDatetime(a: Appointment, b: Appointment) {
 }
 
 export function useAppointments({ filters }: Props = { filters: {} }) {
-  const [appointments] = useLocalStorage<Appointment[]>(APPOINTMENTS_KEY, []);
+  const [appointmentsData] = useLocalStorage<Appointment[]>(
+    APPOINTMENTS_KEY,
+    [],
+  );
+  const [appointments, setAppointments] = React.useState<Appointment[]>([]);
+  const [isLoadingAppointments, setIsLoadingAppointments] =
+    React.useState(true);
+
+  async function fetchAppointments() {
+    if (isLoadingAppointments) {
+      await delay(2000);
+      setIsLoadingAppointments(false);
+    }
+    setAppointments(appointmentsData);
+  }
+
+  React.useEffect(() => {
+    fetchAppointments();
+  }, [appointmentsData]);
 
   const filteredAppointments = useMemo(() => {
     return appointments
@@ -79,5 +98,6 @@ export function useAppointments({ filters }: Props = { filters: {} }) {
     afternoonAppointments,
     nightAppointments,
     usedTimeSlots,
+    isLoadingAppointments,
   };
 }

@@ -5,6 +5,7 @@ import ChevronDown from "../assets/icons/CaretDown.svg?react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { Skeleton } from "./skeleton";
 
 export const datePickerVariantsContainer = tv({
   base: `
@@ -32,11 +33,13 @@ interface DatePickerProps
     React.ComponentProps<"input">,
     VariantProps<typeof datePickerVariantsInput> {
   icon?: React.ComponentProps<typeof Icon>["svg"];
+  loading?: boolean;
 }
 
 export function DatePicker({
   icon = Calendar,
   className,
+  loading,
   ...props
 }: DatePickerProps) {
   const dateRef = useRef<HTMLInputElement>(null);
@@ -48,13 +51,20 @@ export function DatePicker({
       dateRef.current?.focus();
     }
   };
+
+  if (loading) {
+    return (
+      <Skeleton rounded="lg" className={twMerge("h-12.5 w-44", className)} />
+    );
+  }
+
   return (
     <button
       type="button"
       className={datePickerVariantsContainer({ className })}
       onClick={openDatePicker}
     >
-      <Icon svg={icon} className={datePickerVariantsIcon({ className })} />
+      <Icon svg={icon} className={datePickerVariantsIcon()} />
       <input
         ref={dateRef}
         type="date"

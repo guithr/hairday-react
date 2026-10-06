@@ -1,7 +1,6 @@
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { Text } from "./text";
-import { Skeleton } from "./skeleton";
 
 export const buttonVariants = tv({
   base: `
@@ -44,7 +43,9 @@ export const buttonVariants = tv({
 interface ButtonProps
   extends
     Omit<React.ComponentProps<"button">, "disabled" | "size">,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  loading?: boolean;
+}
 
 export function Button({
   children,
@@ -52,22 +53,27 @@ export function Button({
   size,
   disabled,
   handling,
+  loading,
   className,
   ...props
 }: ButtonProps) {
   return (
     <button
-      disabled={disabled}
+      disabled={disabled || loading}
+      aria-busy={loading}
       className={buttonVariants({
         variant,
         size,
         disabled,
-        handling,
+        handling: handling || loading,
         className,
       })}
       {...props}
     >
-      <Text variant="title-sm" className="uppercase text-gray-900">
+      <Text
+        variant="title-sm"
+        className={loading ? "uppercase text-gray-900/70" : "uppercase text-gray-900"}
+      >
         {children}
       </Text>
     </button>

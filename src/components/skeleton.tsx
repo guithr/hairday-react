@@ -11,7 +11,7 @@ export const skeletonVariants = tv({
     },
   },
   defaultVariants: {
-    rounded: "lg",
+    rounded: "md",
   },
 });
 

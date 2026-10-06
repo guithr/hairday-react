@@ -5,10 +5,11 @@ import { Text } from "../components/text";
 type ScheduleHeaderProps = {
     filteredDate: Date;
     onChangeFilteredDate: ComponentProps<"input">["onChange"];
+    loading?: boolean;
 };
 
 
-export function ScheduleHeader({ filteredDate, onChangeFilteredDate }: ScheduleHeaderProps) {
+export function ScheduleHeader({ filteredDate, onChangeFilteredDate, loading }: ScheduleHeaderProps) {
     return (
         <header className="flex justify-between gap-6">
             <div className="flex flex-col gap-1">
@@ -22,6 +23,7 @@ export function ScheduleHeader({ filteredDate, onChangeFilteredDate }: ScheduleH
             <DatePicker
                 value={filteredDate.toISOString().split("T")[0]}
                 onChange={onChangeFilteredDate}
+                loading={loading}
             />
         </header>
     )

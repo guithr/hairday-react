@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 import { textVariants } from "./text";
 import { tv } from "tailwind-variants";
 import { Icon } from "./icon";
+import { Skeleton } from "./skeleton";
 
 export const textInputContainerVariants = tv({
   base: `
@@ -19,11 +20,27 @@ export const textInputVariants = tv({
   base: "w-full outline-none text-gray-200 placeholder:text-gray-400",
 });
 
+export const textInputSkeletonVariants = tv({
+  base: "h-[50px] w-full",
+});
+
 interface TextInputProps extends React.ComponentProps<"input"> {
   icon: React.ComponentProps<typeof Icon>["svg"];
+  loading?: boolean;
 }
 
-export function TextInput({ icon, className, ...props }: TextInputProps) {
+export function TextInput({
+  icon,
+  className,
+  loading,
+  ...props
+}: TextInputProps) {
+  if (loading) {
+    return (
+      <Skeleton className={twMerge(textInputSkeletonVariants(), className)} />
+    );
+  }
+
   return (
     <label className={textInputContainerVariants()}>
       <Icon svg={icon} className={textIconInputVariants()} />

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-alert-dialog": "^1.1.23",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-router": "^1.153.1",

@@ -1,5 +1,8 @@
 import type { ChangeEvent } from "react";
-import { useAppointments } from "../hooks/use-appointments";
+import {
+  useAppointments,
+  type AppointmentFormatted,
+} from "../hooks/use-appointments";
 import { ScheduleHeader } from "./schedule-header";
 import { ScheduleItem } from "./schedule-item";
 import { SchedulePeriod } from "./schedule-period";
@@ -11,9 +14,12 @@ interface ScheduleProps {
 }
 
 export function Schedule({ selectedDate, onChangeDate }: ScheduleProps) {
-
-  const { morningAppointments, afternoonAppointments, nightAppointments } =
-    useAppointments({ filters: { date: selectedDate } });
+  const {
+    isLoadingAppointments,
+    morningAppointments,
+    afternoonAppointments,
+    nightAppointments,
+  } = useAppointments({ filters: { date: selectedDate } });
 
   function handleFilteredDateChange(event: ChangeEvent<HTMLInputElement>) {
     if (!event.target.value) return;
@@ -21,9 +27,13 @@ export function Schedule({ selectedDate, onChangeDate }: ScheduleProps) {
   }
 
   const periods = [
-    { period: "morning", appointments: morningAppointments },
-    { period: "afternoon", appointments: afternoonAppointments },
-    { period: "night", appointments: nightAppointments },
+    { period: "morning", appointments: morningAppointments, skeletonCount: 4 },
+    {
+      period: "afternoon",
+      appointments: afternoonAppointments,
+      skeletonCount: 6,
+    },
+    { period: "night", appointments: nightAppointments, skeletonCount: 3 },
   ] as const;
 
   return (
@@ -32,16 +42,25 @@ export function Schedule({ selectedDate, onChangeDate }: ScheduleProps) {
         <ScheduleHeader
           filteredDate={selectedDate}
           onChangeFilteredDate={handleFilteredDateChange}
+          loading={isLoadingAppointments}
         />
         <div className="space-y-3">
-          {periods.map(({ period, appointments }) => (
+          {periods.map(({ period, appointments, skeletonCount }) => (
             <SchedulePeriod key={period} period={period}>
-              {appointments.map((appointment) => (
-                <ScheduleItem
-                  key={appointment.id}
-                  appointment={appointment}
-                />
-              ))}
+              {isLoadingAppointments
+                ? Array.from({ length: skeletonCount }).map((_, index) => (
+                    <ScheduleItem
+                      key={index}
+                      appointment={{} as AppointmentFormatted}
+                      loading
+                    />
+                  ))
+                : appointments.map((appointment) => (
+                    <ScheduleItem
+                      key={appointment.id}
+                      appointment={appointment}
+                    />
+                  ))}
             </SchedulePeriod>
           ))}
         </div>
