@@ -17,7 +17,7 @@ function Index() {
 
   return (
     <MainContent>
-      <Logo className="absolute top-0 left-0" />
+      <Logo className="hidden md:block md:absolute top-0 left-0" />
       <SideBar selectedDate={selectedDate} onChangeDate={setSelectedDate} />
       <Schedule selectedDate={selectedDate} onChangeDate={setSelectedDate} />
     </MainContent>

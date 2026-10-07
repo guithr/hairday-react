@@ -64,7 +64,7 @@ export function SideBar({ selectedDate, onChangeDate }: SideBarProps) {
   }
 
   return (
-    <aside className="max-w-124.5 w-full flex flex-col p-20 bg-gray-700 gap-6 rounded-xl">
+    <aside className="md:max-w-124.5 w-full flex flex-col p-5 md:p-20 bg-gray-700 gap-6 rounded-xl">
       <div className="space-y-1">
         <Text as="h2" variant="title-lg" className="text-gray-100">
           Agende um atendimento
